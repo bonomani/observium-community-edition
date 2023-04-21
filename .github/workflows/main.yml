@@ -1,0 +1,25 @@
+name: Sync Fork
+
+on:
+  workflow_dispatch:
+  schedule: 
+  - cron: "0 0 1 * *"
+
+jobs:
+ sync:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Sync and merge upstream repository with your current repository
+      uses: dabreadman/sync-upstream-repo@v1.0.0.b
+      with:
+        # URL of gitHub public upstream repo
+        upstream_repo: "https://github.com/DanielleHuisman/observium-community-edition.git"
+        # Branch to merge from upstream (defaults to downstream branch)
+        upstream_branch: main                                           
+        # Branch to merge into downstream
+        downstream_branch: main
+        # GitHub Bot token
+        token: ${{ secrets.GITHUB_TOKEN }}
